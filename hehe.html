@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>hehe™</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css?family=Montserrat');
+      body {
+        background-color: #36393f;
+      }
+      * {
+        font-family: 'Montserrat', sans-serif;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        color: white;
+      }
+      textarea {
+        width: 400px;
+        height: 120px;
+        background: none;
+      }
+      textarea:focus {
+        outline: none;
+      }
+      #output {
+        font-family: monospace;
+      }
+      .brand {
+        grid-column: span 2;
+      }
+      .brand h3{
+        font-weight: 100;
+      }
+      .content {
+        margin: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        max-width: 800px;
+      }
+      .content > div {
+        padding: 15px;
+      }
+      .area-3 {
+        display: flex;
+        grid-column: span 2;
+      }
+      .area-3 > div {
+        margin: 15px;
+      }
+      .discord {
+        grid-column: span 2;
+        justify-content: center;
+        align-items: center;
+        line-height: 1;
+      }
+      .discord img {
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        margin: 0 5px 0 0;
+      }
+      .discord .space {
+        display: inline-block;
+        width: 8px;
+      }
+
+    </style>
+    <script>
+      var spaceBreak = false;
+      var newLine = false;
+      var doubleBreak = false;
+      function emoji(input) {
+        var alphabet = [];
+        alphabet['a'] = ':regional_indicator_a: ';
+        alphabet['ą'] = ':regional_indicator_a: ';
+        alphabet['b'] = ':regional_indicator_b: ';
+        alphabet['c'] = ':regional_indicator_c: ';
+        alphabet['ć'] = ':regional_indicator_c: ';
+        alphabet['d'] = ':regional_indicator_d: ';
+        alphabet['e'] = ':regional_indicator_e: ';
+        alphabet['ę'] = ':regional_indicator_e: ';
+        alphabet['f'] = ':regional_indicator_f: ';
+        alphabet['g'] = ':regional_indicator_g: ';
+        alphabet['h'] = ':regional_indicator_h: ';
+        alphabet['i'] = ':regional_indicator_i: ';
+        alphabet['j'] = ':regional_indicator_j: ';
+        alphabet['k'] = ':regional_indicator_k: ';
+        alphabet['l'] = ':regional_indicator_l: ';
+        alphabet['ł'] = ':regional_indicator_l: ';
+        alphabet['m'] = ':regional_indicator_m: ';
+        alphabet['n'] = ':regional_indicator_n: ';
+        alphabet['ń'] = ':regional_indicator_n: ';
+        alphabet['o'] = ':regional_indicator_o: ';
+        alphabet['ó'] = ':regional_indicator_o: ';
+        alphabet['p'] = ':regional_indicator_p: ';
+        alphabet['r'] = ':regional_indicator_r: ';
+        alphabet['q'] = ':regional_indicator_q: ';
+        alphabet['s'] = ':regional_indicator_s: ';
+        alphabet['ś'] = ':regional_indicator_s: ';
+        alphabet['t'] = ':regional_indicator_t: ';
+        alphabet['u'] = ':regional_indicator_u: ';
+        alphabet['v'] = ':regional_indicator_v: ';
+        alphabet['w'] = ':regional_indicator_w: ';
+        alphabet['x'] = ':regional_indicator_x: ';
+        alphabet['y'] = ':regional_indicator_y: ';
+        alphabet['z'] = ':regional_indicator_z: ';
+        alphabet['ż'] = ':regional_indicator_z: ';
+        alphabet['ź'] = ':regional_indicator_z: ';
+        if ( spaceBreak ) {
+          alphabet[' '] = '\n\n';
+        } else {
+          alphabet[' '] = ' ';
+        }
+        if ( doubleBreak ) {
+          alphabet['\n'] = '\n\n';
+        }
+        alphabet['0'] = ':zero: ';
+        alphabet['1'] = ':one: ';
+        alphabet['2'] = ':two: ';
+        alphabet['3'] = ':three: ';
+        alphabet['4'] = ':four: ';
+        alphabet['5'] = ':five: ';
+        alphabet['6'] = ':six: ';
+        alphabet['7'] = ':seven: ';
+        alphabet['8'] = ':eight: ';
+        alphabet['9'] = ':nine: ';
+
+        alphabet['?'] = ':question: ';
+        alphabet['!'] = ':exclamation: ';
+
+
+        if ( alphabet[input.toLocaleLowerCase()] == null ) {
+          return input;
+        } else {
+          return alphabet[input.toLocaleLowerCase()];
+        }
+      }
+      function convert(input) {
+        var result = "";
+        for (var i = 0; i < input.length; i++) {
+          var canvas = document.getElementById('canvas');
+          console.log(input[i]);
+          switch ( input[i] ) {
+            case '\n':
+              canvas.innerHTML += '<br>';
+              if ( doubleBreak ) {
+                canvas.innerHTML += '<br>';
+              }
+              break;
+            case ' ':
+              if ( spaceBreak ) {
+                canvas.innerHTML += '<br>';
+                canvas.innerHTML += '<br>';
+              } else {
+                canvas.innerHTML += '<div class="space"></div>';
+              }
+              break;
+            default:
+              var image = input[i].toLocaleLowerCase();
+              image = (image == '?')?'qe':image;
+              image = (image == '!')?'ex':image;
+              image = (image == 'ą')?'a':image;
+              image = (image == 'ć')?'c':image;
+              image = (image == 'ł')?'l':image;
+              image = (image == 'ż')?'z':image;
+              image = (image == 'ź')?'z':image;
+              image = (image == 'ę')?'e':image;
+              image = (image == 'ś')?'s':image;
+              image = (image == 'ó')?'o':image;
+              image = (image == 'ń')?'n':image;
+              canvas.innerHTML += '<img src="img/'+image+'.png">';
+              break;
+          }
+          result += emoji(input[i]);
+        }
+        return result;
+      }
+      function update() {
+        var canvas = document.getElementById('canvas');
+        canvas.innerHTML = '';
+        var inputVal = document.getElementById('input').value;
+        var html = convert(inputVal);
+        if ( newLine ) {
+          html = '.\n' + html;
+        }
+        document.getElementById('output').innerHTML = html;
+      }
+    </script>
+  </head>
+  <body>
+    <div class="content">
+      <div class="brand">
+        <h1>hehe™</h1>
+        <h3>Text to emoji converter by wkurwić ludzi na discord</h3>
+      </div>
+      <div class="area-1">
+        <label for="input">Input</label>
+        <textarea name="input" id="input" onkeyup="update()"></textarea>
+      </div>
+      <div class="area-2">
+        <label for="output">Output</label>
+        <textarea id="output"></textarea>
+      </div>
+      <div class="area-3">
+        <div class="checkbox">
+          <label for="space">Breake line on space</label>
+          <input type="checkbox" id="space" onchange="spaceBreak = !spaceBreak; update();">
+        </div>
+        <div class="checkbox">
+          <label for="newline">From new line</label>
+          <input type="checkbox" id="newline" onchange="newLine = !newLine; update();">
+        </div>
+        <div class="checkbox">
+          <label for="doubleBreak">Enter to double break line</label>
+          <input type="checkbox" id="doubleBreak" onchange="doubleBreak = !doubleBreak; update();">
+        </div>
+      </div>
+      <div class="discord" id="canvas"></div>
+    </div>
+    <script>
+      // setInterval( update, 10);
+    </script>
+  </body>
+</html>
